@@ -99,6 +99,15 @@ function App() {
   const handleFilterAll = useCallback(() => setFilter("all"), []);
   const handleFilterActive = useCallback(() => setFilter("active"), []);
   const handleFilterCompleted = useCallback(() => setFilter("completed"), []);
+  const handleInputChange = useCallback((e) => setInput(e.target.value), []);
+  const handleInputKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        addTodo();
+      }
+    },
+    [addTodo],
+  );
 
   // Issue 10: Inline event handler dengan arrow function (re-create setiap render)
   return (
@@ -112,12 +121,8 @@ function App() {
           id="todo-input"
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              addTodo();
-            }
-          }}
+          onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
           placeholder="What needs to be done?"
         />
         <button onClick={addTodo}>Add</button>
