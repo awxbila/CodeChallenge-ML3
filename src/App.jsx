@@ -13,7 +13,12 @@ function App() {
     // Load from localStorage
     const saved = localStorage.getItem("todos");
     if (saved) {
-      setTodos(JSON.parse(saved));
+      try {
+        setTodos(JSON.parse(saved));
+      } catch {
+        // Abaikan data rusak agar aplikasi tetap bisa dipakai
+        localStorage.removeItem("todos");
+      }
     }
   }, []);
 
