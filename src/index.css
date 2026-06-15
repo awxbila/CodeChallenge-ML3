@@ -34,6 +34,12 @@ h1 {
   margin-bottom: 20px;
 }
 
+.filter-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 input {
   flex: 1;
   padding: 10px;
@@ -53,6 +59,18 @@ button {
 }
 
 button:hover {
+  background: #0056b3;
+}
+
+.filter-button.active {
+  background: #28a745;
+}
+
+.filter-button:not(.active) {
+  background: #007bff;
+}
+
+.filter-button:not(.active):hover {
   background: #0056b3;
 }
 

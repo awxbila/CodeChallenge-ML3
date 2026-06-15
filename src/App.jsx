@@ -128,23 +128,22 @@ function App() {
         <button onClick={addTodo}>Add</button>
       </div>
 
-      {/* Issue 12: Inline styles (inconsistent dengan CSS file) */}
-      <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
+      <div className="filter-section">
         <button
           onClick={handleFilterAll}
-          style={{ background: filter === "all" ? "#28a745" : "#007bff" }}
+          className={`filter-button ${filter === "all" ? "active" : ""}`}
         >
           All
         </button>
         <button
           onClick={handleFilterActive}
-          style={{ background: filter === "active" ? "#28a745" : "#007bff" }}
+          className={`filter-button ${filter === "active" ? "active" : ""}`}
         >
           Active
         </button>
         <button
           onClick={handleFilterCompleted}
-          style={{ background: filter === "completed" ? "#28a745" : "#007bff" }}
+          className={`filter-button ${filter === "completed" ? "active" : ""}`}
         >
           Completed
         </button>
