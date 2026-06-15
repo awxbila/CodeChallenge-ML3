@@ -34,9 +34,9 @@ function App() {
       return;
     }
 
-    // Issue 6: Menggunakan Date.now() sebagai ID (bisa collision)
+    // Issue 6: Gunakan ID yang lebih unik agar kecil kemungkinan collision
     const newTodo = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       text: input,
       completed: false,
       createdAt: new Date().toISOString(),
