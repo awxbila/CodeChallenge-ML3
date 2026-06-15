@@ -42,28 +42,22 @@ function App() {
       createdAt: new Date().toISOString(),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
     setInput("");
-  }, [input, todos]);
+  }, [input]);
 
   // Issue 7: Tidak ada error handling
-  const deleteTodo = useCallback(
-    (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    },
-    [todos],
-  );
+  const deleteTodo = useCallback((id) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+  }, []);
 
-  const toggleTodo = useCallback(
-    (id) => {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-        ),
-      );
-    },
-    [todos],
-  );
+  const toggleTodo = useCallback((id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
+  }, []);
 
   // Issue 8: Logic filtering yang bisa dipindah ke useMemo
   const filteredTodos = useMemo(() => {
