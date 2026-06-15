@@ -11,20 +11,28 @@ function App() {
   // Issue 3: useEffect tanpa dependency array yang tepat
   useEffect(() => {
     // Load from localStorage
-    const saved = localStorage.getItem("todos");
-    if (saved) {
-      try {
-        setTodos(JSON.parse(saved));
-      } catch {
-        // Abaikan data rusak agar aplikasi tetap bisa dipakai
-        localStorage.removeItem("todos");
+    try {
+      const saved = localStorage.getItem("todos");
+      if (saved) {
+        try {
+          setTodos(JSON.parse(saved));
+        } catch {
+          // Abaikan data rusak agar aplikasi tetap bisa dipakai
+          localStorage.removeItem("todos");
+        }
       }
+    } catch {
+      // Jika localStorage tidak bisa diakses, tetap lanjut render app
     }
   }, []);
 
   // Issue 4: useEffect yang terlalu sering run
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    try {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    } catch {
+      // Simpanan lokal bisa gagal saat storage penuh atau tidak tersedia
+    }
   }, [todos]);
 
   // Issue 5: Function yang tidak di-memoize, re-create setiap render
@@ -48,15 +56,23 @@ function App() {
 
   // Issue 7: Tidak ada error handling
   const deleteTodo = useCallback((id) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    try {
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    } catch {
+      // Jika update state gagal, biarkan app tetap berjalan
+    }
   }, []);
 
   const toggleTodo = useCallback((id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
+    try {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+        ),
+      );
+    } catch {
+      // Jika update state gagal, biarkan app tetap berjalan
+    }
   }, []);
 
   // Issue 8: Logic filtering yang bisa dipindah ke useMemo
